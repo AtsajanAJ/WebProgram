@@ -10,23 +10,41 @@ const User = function(user){
     this.email = user.email;
     this.password = user.password;
 }
-User.checkUsername = (username, result)=>{
-    const us = "SELECT * FROM users WEERE username = '"+username+"'"
-    console.log(us);
-    sql.query(us,(err,res)=>{
-        if(err){
-            console.log('Error: '+err);
-            result(err,null);
-            return;
-        }
-        if(res.length){
-            console.log('FOund Username:'+ res[0]);
-            result(null, res[0]);
-            return;
-        }
-        result({kind: 'not_found'},null);
-    })
-};
+// User.checkUsername = (username, result)=>{
+//     const us = "SELECT * FROM users WEERE username = '"+username+"'"
+//     console.log(us);
+//     sql.query(us,(err,res)=>{
+//         if(err){
+//             console.log('Error: '+err);
+//             result(err,null);
+//             return;
+//         }
+//         if(res.length){
+//             console.log('FOund Username:'+ res[0]);
+//             result(null, res[0]);
+//             return;
+//         }
+//         result({kind: 'not_found'},null);
+//     })
+// };
+
+User.checkUsername = (username, result) => {
+    const query = "SELECT * FROM users WHERE username = ?";
+    sql.query(query, [username], (err, res) => {
+      if (err) {
+        console.log('Error: ' + err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        console.log('Found Username: ' + JSON.stringify(res[0]));
+        result(null, res[0]);
+        return;
+      }
+      result({ kind: 'not_found' }, null);
+    });
+  };
+  
 
 User.create = (newUser, result)=>{
     sql.query('INSERT INTO users SET?', newUser, (err,res)=>{
