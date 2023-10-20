@@ -6,7 +6,7 @@ module.exports = (app) =>{
     router.get('/:us', user_controller.validUsername);
     router.post('/signup', user_controller.createNewUser);
     router.post('/login', user_controller.login);
-    router.get('/', authJwt,user_controller.updateUserCtrl);
-    router.put('/:id',authJwt,user_controller.deleteUser);
+    router.put('/', authJwt,user_controller.updateUserCtrl);
+    router.delete('/:id',authJwt,user_controller.deleteUser);
     app.use('/api/auth', router);
 }
